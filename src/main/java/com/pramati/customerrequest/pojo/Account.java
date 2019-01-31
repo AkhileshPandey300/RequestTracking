@@ -23,8 +23,10 @@ public class Account extends BaseModel implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private long accountId;
+	private static final long serialVersionUID = -709972415045349187L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long accountId;
 	private String firstName;
 	private String lastName;
 	private String address1;
@@ -33,13 +35,27 @@ public class Account extends BaseModel implements Serializable {
 	private String state;
 	private String zipcode;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public long getAccountId() {
+	public Account(String createdBy, String updatedBy, Date createdAt, Date updatedAt, Long accountId, String firstName,
+			String lastName, String address1, String address2, String city, String state, String zipcode) {
+		super(createdBy, updatedBy, createdAt, updatedAt);
+		this.accountId = accountId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.city = city;
+		this.state = state;
+		this.zipcode = zipcode;
+	}
+
+	public Account() {
+	}
+
+	public Long getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(long accountId) {
+	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
 	}
 

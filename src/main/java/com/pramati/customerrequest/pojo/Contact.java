@@ -1,13 +1,43 @@
 package com.pramati.customerrequest.pojo;
 
-public class Contact extends BaseModel {
+import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name = "CONTACT")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = { "createdBy", "updatedBy", "createdAt", "updatedAt" }, allowGetters = true)
+public class Contact extends BaseModel implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3967156184777881524L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long contactId;
-	private long accountId;
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
 	private String email;
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "accountId")
+	private Account account;
 
 	public long getContactId() {
 		return contactId;
@@ -17,12 +47,12 @@ public class Contact extends BaseModel {
 		this.contactId = contactId;
 	}
 
-	public long getAccountId() {
-		return accountId;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setAccountId(long accountId) {
-		this.accountId = accountId;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public String getFirstName() {
@@ -56,4 +86,21 @@ public class Contact extends BaseModel {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public Contact(String createdBy, String updatedBy, Date createdAt, Date updatedAt, long contactId, String firstName,
+			String lastName, String phoneNumber, String email, Account account) {
+		super(createdBy, updatedBy, createdAt, updatedAt);
+		this.contactId = contactId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.account = account;
+	}
+
+	public Contact() {
+		
+	}
+
+	
 }

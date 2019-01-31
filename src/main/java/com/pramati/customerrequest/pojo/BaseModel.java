@@ -41,4 +41,14 @@ public class BaseModel {
 		this.updatedAt = updatedAt;
 	}
 
+	public BaseModel(String createdBy, String updatedBy, Date createdAt, Date updatedAt) {
+		this.createdBy = createdBy;
+		this.updatedBy = updatedBy;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+	public BaseModel() {
+	}
+
 }

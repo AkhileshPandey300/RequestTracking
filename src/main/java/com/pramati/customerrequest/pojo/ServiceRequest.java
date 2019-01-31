@@ -1,16 +1,34 @@
 package com.pramati.customerrequest.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-public class ServiceRequest extends BaseModel {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@Entity
+@Table(name = "SERVICEREQUEST")
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = { "createdBy", "updatedBy", "createdAt", "updatedAt" }, allowGetters = true)
+public class ServiceRequest extends BaseModel implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4210395994966445661L;
+	@Id
+	@Column(name = "SRNUMBER", nullable = false)
 	private String srNumber;
 	private String title;
 	private long accountId;
@@ -89,6 +107,24 @@ public class ServiceRequest extends BaseModel {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public ServiceRequest(String createdBy, String updatedBy, Date createdAt, Date updatedAt, String srNumber,
+			String title, long accountId, long contactId, String status, Date openDate, Date closeDate,
+			String description) {
+		super(createdBy, updatedBy, createdAt, updatedAt);
+		this.srNumber = srNumber;
+		this.title = title;
+		this.accountId = accountId;
+		this.contactId = contactId;
+		this.status = status;
+		this.openDate = openDate;
+		this.closeDate = closeDate;
+		this.description = description;
+	}
+
+	public ServiceRequest() {
+
 	}
 
 }
