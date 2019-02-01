@@ -17,7 +17,7 @@ import com.pramati.customerrequest.pojo.Account;
 import com.pramati.customerrequest.service.AccountService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/accounts")
 public class AccountController {
 
 	@Autowired
@@ -28,14 +28,14 @@ public class AccountController {
 	}
 
 	// Create a new Account
-	@PostMapping("/accounts")
+	@PostMapping("/add")
 	public Account createAccount(@Valid @RequestBody Account account) {
 		this.accountService.createCustomerAccount(account);
 		return null;
 	}
 
 	// edit a account
-	@PutMapping("/accounts/{id}")
+	@PutMapping("/edit/{id}")
 	public Account updateAccount(@PathVariable(value = "id") Long accountId,
 			@Valid @RequestBody Account accountDetails) {
 
@@ -44,7 +44,7 @@ public class AccountController {
 	}
 
 	// get All accounts
-	@GetMapping("/accounts/list")
+	@GetMapping("/get/list")
 	public List<Account> getAccounts() {
 
 		List<Account> list = this.accountService.getAllAccount();

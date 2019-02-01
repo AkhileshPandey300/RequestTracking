@@ -1,5 +1,6 @@
 package com.pramati.customerrequest.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -22,9 +23,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "ACTIVITY")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "createdBy", "updatedBy", "createdAt", "updatedAt" }, allowGetters = true)
-public class Activity extends BaseModel {
+public class Activity extends BaseModel implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1871668940183682988L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long actId;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 	@JsonIgnore
@@ -32,6 +39,14 @@ public class Activity extends BaseModel {
 	@JoinColumn(name = "accountId")
 	private String srNumber;
 	private String update;
+
+	public Long getActId() {
+		return actId;
+	}
+
+	public void setActId(Long actId) {
+		this.actId = actId;
+	}
 
 	public String getSrNumber() {
 		return srNumber;
@@ -54,6 +69,19 @@ public class Activity extends BaseModel {
 	}
 
 	public void setUpdate(String update) {
+		this.update = update;
+	}
+
+	public Activity() {
+
+	}
+
+	public Activity(String createdBy, String updatedBy, Date createdAt, Date updatedAt, Long id, Date createDate,
+			String srNumber, String update) {
+		super(createdBy, updatedBy, createdAt, updatedAt);
+		this.actId = id;
+		this.createDate = createDate;
+		this.srNumber = srNumber;
 		this.update = update;
 	}
 
