@@ -2,9 +2,10 @@ package com.pramati.customerrequest.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.pramati.customerrequest.dao.AccountDAO;
 import com.pramati.customerrequest.pojo.Account;
@@ -21,7 +22,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	
+
 	public void createCustomerAccount(Account account) {
 
 		this.accountDAO.createCustomerAccount(account);
@@ -41,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public List<Account> getAllAccount() {
-		 return this.accountDAO.getAllAccount();
+		return this.accountDAO.getAllAccount();
 	}
 
 }
