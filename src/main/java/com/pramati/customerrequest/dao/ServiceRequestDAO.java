@@ -14,4 +14,6 @@ public interface ServiceRequestDAO {
 
 	public List<ServiceRequest> getAllServices();
 
+	public List<ServiceRequest> findBySpecifications(String specs);
+
 }

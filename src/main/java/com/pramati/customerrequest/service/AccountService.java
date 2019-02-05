@@ -11,5 +11,6 @@ public interface AccountService  {
 	public Account updateCustomerAccount(Account account);
 	public Account findById(Long accountId);
 	public List<Account> getAllAccount();
+	public List<Account> findBySpecification(String firstName ,String lastName);
 
 }

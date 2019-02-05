@@ -1,13 +1,11 @@
 package com.pramati.customerrequest.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -42,21 +40,29 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public Account findById(Long accountId) {
-		return null;
+		Account account = entityManager
+				.createQuery("select acc " + "from Account acc " + "where acc.accountId = :id", Account.class)
+				.setParameter("accountId", accountId).getSingleResult();
+		return account;
 	}
 
 	@Override
 	public List<Account> getAllAccount() {
-		Session session = entityManager.unwrap(Session.class);
-		Query query = session.createNativeQuery("SELECT * FROM ACCOUNT ;");
-		/*
-		 * ((org.hibernate.query.Query)
-		 * query).setResultTransformer(Transformers.aliasToBean(Account.class));
-		 * ArrayList<Account> list = (ArrayList<Account>) query.getResultList();
-		 */
-		ArrayList<Account> list = (ArrayList<Account>) query.list();
+		List<Account> listOfAllAccounts = entityManager.createQuery("select * from Account ", Account.class)
+				.getResultList();
 
-		return list;
+		return listOfAllAccounts;
+	}
+
+	@Override
+	public List<Account> findBySpecification(String firsName, String lastName) {
+
+		List<Account> listOfAccounts = entityManager
+				.createQuery("select acc " + "from Account acc "
+						+ "where acc.firstName = :firsName and acc.lastName = :lastName", Account.class)
+				.setParameter("firsName", firsName).setParameter("lastName", lastName).getResultList();
+
+		return listOfAccounts;
 	}
 
 }

@@ -45,4 +45,10 @@ public class AccountServiceImpl implements AccountService {
 		return this.accountDAO.getAllAccount();
 	}
 
+	@Override
+	public List<Account> findBySpecification(String firsName, String lastName) {
+			
+		return null;
+	}
+
 }

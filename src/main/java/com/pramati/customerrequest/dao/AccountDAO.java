@@ -11,4 +11,5 @@ public interface AccountDAO {
 	public Account updateCustomerAccount(Account account);
 	public Account findById(Long accountId);
 	public List<Account> getAllAccount();
+	public List<Account> findBySpecification(String firsName ,String lastName);
 }

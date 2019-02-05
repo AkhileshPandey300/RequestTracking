@@ -1,12 +1,16 @@
 package com.pramati.customerrequest.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,6 +41,9 @@ public class ServiceRequest extends BaseModel implements Serializable {
 	private Date openDate;
 	private Date closeDate;
 	private String description;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Activity> activityList = new ArrayList<>();
 
 	public String getSrNumber() {
 		return srNumber;
@@ -125,6 +132,14 @@ public class ServiceRequest extends BaseModel implements Serializable {
 
 	public ServiceRequest() {
 
+	}
+
+	public List<Activity> getActivityList() {
+		return activityList;
+	}
+
+	public void setActivityList(List<Activity> activityList) {
+		this.activityList = activityList;
 	}
 
 }

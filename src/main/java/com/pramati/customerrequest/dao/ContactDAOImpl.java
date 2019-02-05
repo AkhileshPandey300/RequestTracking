@@ -13,7 +13,7 @@ import com.pramati.customerrequest.pojo.Contact;
 @Repository
 public class ContactDAOImpl implements ContactDAO {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccountDAOImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ContactDAOImpl.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;

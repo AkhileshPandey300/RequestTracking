@@ -43,12 +43,21 @@ public class AccountController {
 		return updatedAccount;
 	}
 
+	@PutMapping("/search/{firstName}/{lastName}")
+	public List<Account> searchAccounts(@PathVariable(value = "firstName") String firstName,
+			@PathVariable(value = "lastName") String lastName) {
+
+		List<Account> listOfAccount = this.accountService.findBySpecification(firstName, lastName);
+		return listOfAccount;
+
+	}
+
 	// get All accounts
 	@GetMapping("/get/list")
 	public List<Account> getAccounts() {
 
-		List<Account> list = this.accountService.getAllAccount();
-		return list;
+		List<Account> listOfAllAccount = this.accountService.getAllAccount();
+		return listOfAllAccount;
 	}
 
 }

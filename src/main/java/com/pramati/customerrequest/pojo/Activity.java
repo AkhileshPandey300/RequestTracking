@@ -1,3 +1,4 @@
+
 package com.pramati.customerrequest.pojo;
 
 import java.io.Serializable;
@@ -36,7 +37,7 @@ public class Activity extends BaseModel implements Serializable {
 	private Date createDate;
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "accountId")
+	@JoinColumn(name = "SRNUMBER")
 	private String srNumber;
 	private String update;
 
