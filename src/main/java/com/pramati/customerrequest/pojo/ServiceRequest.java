@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -19,6 +18,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -27,9 +27,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = { "createdBy", "updatedBy", "createdAt", "updatedAt" }, allowGetters = true)
 public class ServiceRequest extends BaseModel implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4210395994966445661L;
 	@Id
 	@Column(name = "SRNUMBER", nullable = false)
@@ -42,7 +39,8 @@ public class ServiceRequest extends BaseModel implements Serializable {
 	private Date closeDate;
 	private String description;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(mappedBy = "serviceRequest")
 	private List<Activity> activityList = new ArrayList<>();
 
 	public String getSrNumber() {
@@ -118,7 +116,7 @@ public class ServiceRequest extends BaseModel implements Serializable {
 
 	public ServiceRequest(String createdBy, String updatedBy, Date createdAt, Date updatedAt, String srNumber,
 			String title, long accountId, long contactId, String status, Date openDate, Date closeDate,
-			String description) {
+			String description, List<Activity> activities) {
 		super(createdBy, updatedBy, createdAt, updatedAt);
 		this.srNumber = srNumber;
 		this.title = title;
@@ -128,6 +126,7 @@ public class ServiceRequest extends BaseModel implements Serializable {
 		this.openDate = openDate;
 		this.closeDate = closeDate;
 		this.description = description;
+		this.activityList = activities;
 	}
 
 	public ServiceRequest() {
@@ -142,4 +141,10 @@ public class ServiceRequest extends BaseModel implements Serializable {
 		this.activityList = activityList;
 	}
 
+	/*
+	 * public List<Activity> getActivityList() { return activityList; }
+	 * 
+	 * public void setActivityList(List<Activity> activityList) { this.activityList
+	 * = activityList; }
+	 */
 }

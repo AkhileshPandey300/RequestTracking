@@ -4,6 +4,7 @@ package com.pramati.customerrequest.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,20 +28,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = { "createdBy", "updatedBy", "createdAt", "updatedAt" }, allowGetters = true)
 public class Activity extends BaseModel implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1871668940183682988L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long actId;
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "SRNUMBER")
-	private String srNumber;
+
+//	private String srNumber;
 	private String update;
+
+	@ManyToOne
+	@JoinColumn(name = "srNumber", nullable = false)
+	private ServiceRequest serviceRequest;
 
 	public Long getActId() {
 		return actId;
@@ -49,18 +49,18 @@ public class Activity extends BaseModel implements Serializable {
 		this.actId = actId;
 	}
 
-	public String getSrNumber() {
-		return srNumber;
-	}
-
-	public void setSrNumber(String srNumber) {
-		this.srNumber = srNumber;
-	}
-
+	/*
+	 * public String getSrNumber() { return srNumber; }
+	 * 
+	 * public void setSrNumber(String srNumber) { this.srNumber = srNumber; }
+	 */
 	public Date getCreateDate() {
 		return createDate;
 	}
 
+	@Column(nullable = false, updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
@@ -78,12 +78,21 @@ public class Activity extends BaseModel implements Serializable {
 	}
 
 	public Activity(String createdBy, String updatedBy, Date createdAt, Date updatedAt, Long id, Date createDate,
-			String srNumber, String update) {
+			String update, ServiceRequest serviceRequest) {
 		super(createdBy, updatedBy, createdAt, updatedAt);
 		this.actId = id;
 		this.createDate = createDate;
-		this.srNumber = srNumber;
+//		this.srNumber = srNumber;
 		this.update = update;
+		this.serviceRequest = serviceRequest;
+	}
+
+	public ServiceRequest getServiceRequest() {
+		return serviceRequest;
+	}
+
+	public void setServiceRequest(ServiceRequest serviceRequest) {
+		this.serviceRequest = serviceRequest;
 	}
 
 }

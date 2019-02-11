@@ -1,4 +1,4 @@
-package com.pramati.customerrequest.RequestTracking;
+package com.pramati.customerrequest.requestservices;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

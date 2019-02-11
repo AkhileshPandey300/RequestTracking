@@ -19,8 +19,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 	@Override
 	public void loggServiceActivity(Activity activity) {
-
-		entityManager.persist(activity);
+		try {
+			this.entityManager.persist(activity);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

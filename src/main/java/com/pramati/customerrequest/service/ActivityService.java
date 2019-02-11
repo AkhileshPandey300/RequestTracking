@@ -4,6 +4,6 @@ import com.pramati.customerrequest.pojo.Activity;
 
 interface  ActivityService {
 	
-	public void loggServiceActivity(Activity activity);
+	public Activity loggServiceActivity(Activity activity);
 
 }

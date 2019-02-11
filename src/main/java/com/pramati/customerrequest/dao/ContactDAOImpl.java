@@ -20,8 +20,11 @@ public class ContactDAOImpl implements ContactDAO {
 
 	@Override
 	public void addContact(Contact contact) {
-		Session session = entityManager.unwrap(Session.class);
-		session.persist(contact);
+		if (contact.getContactId() > 0) {
+			entityManager.persist(contact);
+		} else {
+			entityManager.merge(contact);
+		}
 		logger.info("" + contact);
 
 	}

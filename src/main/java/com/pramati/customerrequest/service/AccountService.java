@@ -2,15 +2,21 @@ package com.pramati.customerrequest.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.pramati.customerrequest.exception.AccountNotFoundException;
 import com.pramati.customerrequest.pojo.Account;
 
+public interface AccountService {
 
-public interface AccountService  {
-	
-	public void createCustomerAccount(Account account);
+	public Account createCustomerAccount(Account account);
+
 	public Account updateCustomerAccount(Account account);
-	public Account findById(Long accountId);
-	public List<Account> getAllAccount();
-	public List<Account> findBySpecification(String firstName ,String lastName);
+
+	public Account findById(Long accountId) throws AccountNotFoundException;
+
+	public Page<Account>  getAllAccount(int page ,int size);
+
+	public List<Account> findBySpecification(String firstName, String lastName,int page ,int size);
 
 }

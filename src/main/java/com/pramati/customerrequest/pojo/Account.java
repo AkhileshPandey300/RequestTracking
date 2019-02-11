@@ -1,17 +1,22 @@
 package com.pramati.customerrequest.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -25,7 +30,7 @@ public class Account extends BaseModel implements Serializable {
 	 */
 	private static final long serialVersionUID = -709972415045349187L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long accountId;
 	private String firstName;
 	private String lastName;
@@ -35,8 +40,13 @@ public class Account extends BaseModel implements Serializable {
 	private String state;
 	private String zipcode;
 
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "account")
+	private List<Contact> listOfContacts = new ArrayList<>();
+
 	public Account(String createdBy, String updatedBy, Date createdAt, Date updatedAt, Long accountId, String firstName,
-			String lastName, String address1, String address2, String city, String state, String zipcode) {
+			String lastName, String address1, String address2, String city, String state, String zipcode,
+			List<Contact> contacts) {
 		super(createdBy, updatedBy, createdAt, updatedAt);
 		this.accountId = accountId;
 		this.firstName = firstName;
@@ -46,6 +56,7 @@ public class Account extends BaseModel implements Serializable {
 		this.city = city;
 		this.state = state;
 		this.zipcode = zipcode;
+		this.listOfContacts = contacts;
 	}
 
 	public Account() {
@@ -113,6 +124,14 @@ public class Account extends BaseModel implements Serializable {
 
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
+	}
+
+	public List<Contact> getListOfContacts() {
+		return listOfContacts;
+	}
+
+	public void setListOfContacts(List<Contact> listOfContacts) {
+		this.listOfContacts = listOfContacts;
 	}
 
 }

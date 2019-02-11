@@ -3,7 +3,9 @@ package com.pramati.customerrequest.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -22,8 +24,14 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public void createCustomerAccount(Account account) {
-		Session session = entityManager.unwrap(Session.class);
-		session.persist(account);
+
+		
+		if (account.getAccountId() > 0) {
+			entityManager.persist(account);
+		} else {
+			entityManager.merge(account);
+		}
+
 		logger.info("" + account);
 
 	}
@@ -48,8 +56,8 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public List<Account> getAllAccount() {
-		List<Account> listOfAllAccounts = entityManager.createQuery("select * from Account ", Account.class)
-				.getResultList();
+		List<Account> listOfAllAccounts = entityManager
+				.createQuery("select acc from " + Account.class.getName() + " acc ", Account.class).getResultList();
 
 		return listOfAllAccounts;
 	}

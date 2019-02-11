@@ -1,21 +1,29 @@
 package com.pramati.customerrequest.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pramati.customerrequest.dao.ActivityDAO;
 import com.pramati.customerrequest.pojo.Activity;
+import com.pramati.customerrequest.repository.ActivityRepository;
 
 @Service
-public class ActivityServiceImpl implements ActivityService{
-	
+@Transactional
+public class ActivityServiceImpl implements ActivityService {
+
 	@Autowired
-	private ActivityDAO activityDAO;
+	private ActivityRepository activityRepository;
+
+	public void setActivityRepository(ActivityRepository activityRepository) {
+		this.activityRepository = activityRepository;
+	}
 
 	@Override
-	public void loggServiceActivity(Activity activity) {
+	public Activity loggServiceActivity(Activity activity) {
 
-		this.activityDAO.loggServiceActivity(activity);
+		Activity activityEntity = this.activityRepository.save(activity);
+		return activityEntity;
 	}
 
 }

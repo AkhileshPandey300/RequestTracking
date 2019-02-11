@@ -1,4 +1,4 @@
-package com.pramati.customerrequest.config;
+package com.pramati.customer_request.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ public class SwaggerConfig {
 
 	private ApiInfo metaData() {
 
-		return new ApiInfoBuilder().title("Request Tracking").description("Spring Boot Rest API").version("1.0")
+		return new ApiInfoBuilder().title("Request Tracking").description("Spring Boot Rest API").version("1.1")
 				.build();
 
 	}

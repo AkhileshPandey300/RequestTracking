@@ -28,15 +28,14 @@ public class Contact extends BaseModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 3967156184777881524L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long contactId;
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
 	private String email;
-	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "accountId")
+	@JoinColumn(name = "accountId", nullable = false)
 	private Account account;
 
 	public long getContactId() {
@@ -99,8 +98,7 @@ public class Contact extends BaseModel implements Serializable {
 	}
 
 	public Contact() {
-		
+
 	}
 
-	
 }
