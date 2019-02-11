@@ -14,13 +14,13 @@ import com.pramati.customerrequest.pojo.Contact;
 import com.pramati.customerrequest.service.ContactService;
 
 @RestController
-@RequestMapping("/contact")
+@RequestMapping("/contacts")
 public class ContactController {
 
 	@Autowired
 	private ContactService contactService;
 
-	@PostMapping("/add")
+	@PostMapping("/")
 	public void addContact(@Valid @RequestBody List<Contact> contact) {
 
 		contactService.addContact(contact);

@@ -18,25 +18,13 @@ public class SwaggerConfig {
 	@Bean
 	public Docket productApi() {
 
-		return new Docket(DocumentationType.SWAGGER_2)
-
-				.select()
-
+		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.pramati.customerrequest.controller"))
-
-				.paths(PathSelectors.any())
-
-				.build()
-
-				.apiInfo(metaData());
-
+				.paths(PathSelectors.any()).build().apiInfo(metaData());
 	}
 
 	private ApiInfo metaData() {
-
 		return new ApiInfoBuilder().title("Request Tracking").description("Spring Boot Rest API").version("1.1")
 				.build();
-
 	}
-
 }

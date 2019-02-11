@@ -11,9 +11,7 @@ import com.pramati.customerrequest.pojo.ServiceRequest;
 import com.pramati.customerrequest.utils.SpecSearchCriteria;
 
 public class ServiceRequesrSpecification implements Specification<ServiceRequest> {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -5890953512704135810L;
 	private SpecSearchCriteria criteria;
 

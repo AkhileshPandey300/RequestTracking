@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -33,8 +32,6 @@ public class Activity extends BaseModel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long actId;
 	private Date createDate;
-
-//	private String srNumber;
 	private String update;
 
 	@ManyToOne
@@ -49,11 +46,6 @@ public class Activity extends BaseModel implements Serializable {
 		this.actId = actId;
 	}
 
-	/*
-	 * public String getSrNumber() { return srNumber; }
-	 * 
-	 * public void setSrNumber(String srNumber) { this.srNumber = srNumber; }
-	 */
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -82,7 +74,6 @@ public class Activity extends BaseModel implements Serializable {
 		super(createdBy, updatedBy, createdAt, updatedAt);
 		this.actId = id;
 		this.createDate = createDate;
-//		this.srNumber = srNumber;
 		this.update = update;
 		this.serviceRequest = serviceRequest;
 	}

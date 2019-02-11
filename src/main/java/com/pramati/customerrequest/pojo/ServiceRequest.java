@@ -141,10 +141,4 @@ public class ServiceRequest extends BaseModel implements Serializable {
 		this.activityList = activityList;
 	}
 
-	/*
-	 * public List<Activity> getActivityList() { return activityList; }
-	 * 
-	 * public void setActivityList(List<Activity> activityList) { this.activityList
-	 * = activityList; }
-	 */
 }

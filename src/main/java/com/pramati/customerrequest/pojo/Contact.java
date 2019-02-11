@@ -14,7 +14,6 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -23,9 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = { "createdBy", "updatedBy", "createdAt", "updatedAt" }, allowGetters = true)
 public class Contact extends BaseModel implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3967156184777881524L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -86,6 +82,10 @@ public class Contact extends BaseModel implements Serializable {
 		this.email = email;
 	}
 
+	public Contact() {
+
+	}
+
 	public Contact(String createdBy, String updatedBy, Date createdAt, Date updatedAt, long contactId, String firstName,
 			String lastName, String phoneNumber, String email, Account account) {
 		super(createdBy, updatedBy, createdAt, updatedAt);
@@ -96,9 +96,4 @@ public class Contact extends BaseModel implements Serializable {
 		this.email = email;
 		this.account = account;
 	}
-
-	public Contact() {
-
-	}
-
 }

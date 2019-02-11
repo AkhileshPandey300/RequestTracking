@@ -1,11 +1,7 @@
 package com.pramati.customerrequest.utils;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.data.jpa.domain.Specification;
-
 import com.pramati.customerrequest.pojo.ServiceRequest;
 import com.pramati.customerrequest.repository.ServiceRequesrSpecification;
 
@@ -15,9 +11,6 @@ public class SRSpecificationsBuilder {
     public SRSpecificationsBuilder() {
         params = new ArrayList<>();
     }
-
-    // API
-
     public final SRSpecificationsBuilder with(final String key, final String operation, final Object value, final String prefix, final String suffix) {
         return with(null, key, operation, value, prefix, suffix);
     }
@@ -25,7 +18,7 @@ public class SRSpecificationsBuilder {
     public final SRSpecificationsBuilder with(final String orPredicate, final String key, final String operation, final Object value, final String prefix, final String suffix) {
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
-            if (op == SearchOperation.EQUALITY) { // the operation may be complex operation
+            if (op == SearchOperation.EQUALITY) { 
                 final boolean startWithAsterisk = prefix != null && prefix.contains(SearchOperation.ZERO_OR_MORE_REGEX);
                 final boolean endWithAsterisk = suffix != null && suffix.contains(SearchOperation.ZERO_OR_MORE_REGEX);
 

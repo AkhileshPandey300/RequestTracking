@@ -1,6 +1,5 @@
 package com.pramati.customerrequest.controller;
 
-import java.util.Date;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -81,13 +80,6 @@ public class ServiceRequestController {
 	@GetMapping("/")
 	public Page<ServiceRequest> getAllServices(@RequestParam("page") int page, @RequestParam("size") int size) {
 		return this.sRequestRervice.getAllServices(page, size);
-
-	}
-
-	@PutMapping("/close/{srnumber}")
-	public ServiceRequest closeServiceRequest(@Valid @RequestBody ServiceRequest serviceRequest) {
-
-		return this.sRequestRervice.closeService(serviceRequest);
 
 	}
 

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class AccountNotFoundException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1328354762684510119L;
 
 	public AccountNotFoundException(String message) {
 		super(message);
