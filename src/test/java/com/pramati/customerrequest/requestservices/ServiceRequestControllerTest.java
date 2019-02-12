@@ -1,4 +1,4 @@
-package com.pramati.customerrequest.controller.test;
+package com.pramati.customerrequest.requestservices;
 
 import static org.junit.jupiter.api.Assertions.*;
 

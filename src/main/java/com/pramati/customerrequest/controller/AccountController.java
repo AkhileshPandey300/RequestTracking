@@ -1,7 +1,5 @@
 package com.pramati.customerrequest.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pramati.customerrequest.exception.AccountNotFoundException;
 import com.pramati.customerrequest.pojo.Account;
 import com.pramati.customerrequest.service.AccountService;
 
@@ -37,21 +36,19 @@ public class AccountController {
 
 	// edit a account
 	@PutMapping("/{id}")
-	public Account updateAccount(@PathVariable(value = "id") Long accountId,
-			@Valid @RequestBody Account accountDetails) {
+	public Account updateAccount(@PathVariable(value = "id") Long accountId, @Valid @RequestBody Account accountDetails)
+			throws AccountNotFoundException {
 
 		accountDetails.setAccountId(accountId);
-		Account updatedAccount = this.accountService.updateCustomerAccount(accountDetails);
-		return updatedAccount;
+		return this.accountService.updateCustomerAccount(accountDetails);
 	}
 
 	@PutMapping("/{firstName}/{lastName}")
-	public List<Account> searchAccounts(@PathVariable(value = "firstName") String firstName,
+	public Page<Account> searchAccounts(@PathVariable(value = "firstName") String firstName,
 			@PathVariable(value = "lastName") String lastName, @RequestParam("page") int page,
 			@RequestParam("size") int size) {
 
-		List<Account> listOfAccount = this.accountService.findBySpecification(firstName, lastName, page, size);
-		return listOfAccount;
+		return this.accountService.findBySpecification(firstName, lastName, page, size);
 
 	}
 
@@ -59,8 +56,7 @@ public class AccountController {
 	@GetMapping("/")
 	public Page<Account> getAccounts(@RequestParam("page") int page, @RequestParam("size") int size) {
 
-		Page<Account> listOfAllAccount = this.accountService.getAllAccount(page, size);
-		return listOfAllAccount;
+		return this.accountService.getAllAccount(page, size);
 	}
 
 }

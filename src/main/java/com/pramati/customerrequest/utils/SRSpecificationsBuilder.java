@@ -15,7 +15,8 @@ public class SRSpecificationsBuilder {
         return with(null, key, operation, value, prefix, suffix);
     }
 
-    public final SRSpecificationsBuilder with(final String orPredicate, final String key, final String operation, final Object value, final String prefix, final String suffix) {
+    public final SRSpecificationsBuilder with(final String orPredicate, final String key, final String operation, final Object value, 
+    		final String prefix, final String suffix) {
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
             if (op == SearchOperation.EQUALITY) { 

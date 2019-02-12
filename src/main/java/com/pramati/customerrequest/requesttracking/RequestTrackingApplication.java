@@ -14,15 +14,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJpaAuditing
 @EnableSwagger2
 @EnableAutoConfiguration
-@ComponentScan(basePackages ="com.pramati.customerrequest.*")
-@EntityScan( basePackages = "com.pramati.customerrequest.pojo")
+@ComponentScan(basePackages = "com.pramati.customerrequest.*")
+@EntityScan(basePackages = "com.pramati.customerrequest.pojo")
 @EnableJpaRepositories("com.pramati.customerrequest.repository")
+
 public class RequestTrackingApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RequestTrackingApplication.class, args);
 	}
-	
 
 }
-

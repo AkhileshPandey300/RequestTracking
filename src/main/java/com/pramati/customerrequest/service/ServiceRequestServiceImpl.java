@@ -1,6 +1,5 @@
 package com.pramati.customerrequest.service;
 
-import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -17,7 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
-import com.pramati.customerrequest.pojo.Activity;
+import com.pramati.customerrequest.exception.ServicerRequestNotFoundException;
 import com.pramati.customerrequest.pojo.ServiceRequest;
 import com.pramati.customerrequest.repository.ServiceRequestRepository;
 import com.pramati.customerrequest.utils.ActivityEnum;
@@ -30,40 +29,32 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 
 	@Autowired
 	private ServiceRequestRepository serviceRequestRepository;
-	@Autowired
-	private ActivityService activityDAO;
 
 	@Override
 	public ServiceRequest createService(ServiceRequest request) {
 		request.setSrNumber(generateSRNumber());
+		request.setStatus(ActivityEnum.OPEN.toString());
 		ServiceRequest serviceRequestEntity = this.serviceRequestRepository.save(request);
-		Activity activity = new Activity();
-//		activity.setSrNumber(serviceRequestEntity.getSrNumber());
-		activity.setCreateDate(new Timestamp(System.currentTimeMillis()));
-		activity.setUpdate(ActivityEnum.OPEN.toString());
-		activity.setServiceRequest(request);
-		activityDAO.loggServiceActivity(activity);
 		return serviceRequestEntity;
 	}
 
 	@Override
-	public ServiceRequest editService(ServiceRequest request) {
+	public ServiceRequest editService(ServiceRequest request) throws ServicerRequestNotFoundException {
+		Optional<ServiceRequest> srOpt = serviceRequestRepository.findById(request.getSrNumber());
 
+		if (!srOpt.isPresent())
+			throw new ServicerRequestNotFoundException("Not Found");
+
+		request.setStatus(ActivityEnum.PROGRESS.toString());
 		ServiceRequest serviceRequestEntity = this.serviceRequestRepository.save(request);
-		if (serviceRequestEntity != null) {
-			Activity activity = new Activity();
-			activity.setServiceRequest(request);
-			activity.setCreateDate(new Timestamp(System.currentTimeMillis()));
-			activity.setUpdate(ActivityEnum.PROGRESS.toString());
-			activityDAO.loggServiceActivity(activity);
-		}
 		return serviceRequestEntity;
 	}
 
 	@Override
-	public ServiceRequest getServicesBySrNumber(String srNumber) {
-		Optional<ServiceRequest> list = this.serviceRequestRepository.findById(srNumber);
-		return list.get();
+	public ServiceRequest getServicesBySrNumber(String srNumber) throws ServicerRequestNotFoundException {
+
+		return this.serviceRequestRepository.findById(srNumber)
+				.orElseThrow(() -> (new ServicerRequestNotFoundException("SRNumber-" + srNumber)));
 	}
 
 	@Override
@@ -72,25 +63,8 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 		return serviceRequestRepository.findAll(pageable);
 	}
 
-	/*
-	 * @Override public Page<ServiceRequest> findBySpecifications(String specs ,int
-	 * page, int size) { Pageable pageable = PageRequest.of(page, size);
-	 * SRSpecificationsBuilder builder = new SRSpecificationsBuilder(); String
-	 * operationSetExper =
-	 * Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET); Pattern pattern =
-	 * Pattern.compile("(\\w+?)(" + operationSetExper +
-	 * ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),"); Matcher matcher =
-	 * pattern.matcher(specs + ","); while (matcher.find()) {
-	 * builder.with(matcher.group(1), matcher.group(2), matcher.group(4),
-	 * matcher.group(3), matcher.group(5)); }
-	 * 
-	 * Specification<ServiceRequest> spec = builder.build(); return
-	 * serviceRequestRepository.findAll(spec,pageable); }
-	 */
-
 	@Override
-	public Page<ServiceRequest> findBySpecifications(Map<String, String> paramMap, int page, int size) {
-		String specs = getSpecs(paramMap);
+	public Page<ServiceRequest> findBySpecifications(String specs, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		SRSpecificationsBuilder builder = new SRSpecificationsBuilder();
 		String operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET);
@@ -104,18 +78,11 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 		return serviceRequestRepository.findAll(spec, pageable);
 	}
 
+	
 	@Override
 	public ServiceRequest closeService(ServiceRequest request) {
-
+		request.setStatus(ActivityEnum.CLOSED.toString());
 		ServiceRequest serviceRequestEntity = this.serviceRequestRepository.save(request);
-		if (serviceRequestEntity != null) {
-			Activity activity = new Activity();
-//			activity.setSrNumber(serviceRequestEntity.getSrNumber());
-			activity.setServiceRequest(request);
-			activity.setCreateDate(new Timestamp(System.currentTimeMillis()));
-			activity.setUpdate(ActivityEnum.CLOSED.toString());
-			activityDAO.loggServiceActivity(activity);
-		}
 		return serviceRequestEntity;
 	}
 
