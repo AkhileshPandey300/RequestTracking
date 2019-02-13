@@ -68,17 +68,16 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 		Pageable pageable = PageRequest.of(page, size);
 		SRSpecificationsBuilder builder = new SRSpecificationsBuilder();
 		String operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET);
-		Pattern pattern = Pattern.compile("(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
+		Pattern pattern = Pattern
+				.compile("(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)([\\w-\\s:]+?)(\\p{Punct}?),");
 		Matcher matcher = pattern.matcher(specs + ",");
 		while (matcher.find()) {
 			builder.with(matcher.group(1), matcher.group(2), matcher.group(4), matcher.group(3), matcher.group(5));
 		}
-
 		Specification<ServiceRequest> spec = builder.build();
 		return serviceRequestRepository.findAll(spec, pageable);
 	}
 
-	
 	@Override
 	public ServiceRequest closeService(ServiceRequest request) {
 		request.setStatus(ActivityEnum.CLOSED.toString());

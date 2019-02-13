@@ -50,18 +50,10 @@ public class ServiceRequestController {
 	}
 
 	@GetMapping("/{specs}")
-
-	public Page<ServiceRequest> getSpecificServices(@RequestParam(value = "accountId", required = false) int accountId,
-			@RequestParam(value = "fromOpenDate", required = false) String fromOpenDate,
-			@RequestParam(value = "toOpenDate", required = false) String toOpenDate,
-			@RequestParam(value = "fromClosedDate", required = false) String fromClosedDate,
-			@RequestParam(value = "toClosedDate", required = false) String toClosedDate,
-			@RequestParam(value = "status", required = false) String status, @RequestParam("page") int page,
-			@RequestParam("size") int size) {
-		String specs = "accountId:" + accountId + ",openDate>" + fromOpenDate + ",openDate<" + toOpenDate
-				+ ",closeDate>" + fromClosedDate + ",closeDate<" + toClosedDate + ",status:" + status;
-//		String specs = "accountId:" + accountId + ",status:" + status;
-		return this.sRequestRervice.findBySpecifications(specs, page, size);
+	public Page<ServiceRequest> getSpecificServices(@RequestParam(value = "serach", required = false) String specs,
+			@RequestParam("page") int page, @RequestParam("size") int size) {
+		Page<ServiceRequest> servicePage = this.sRequestRervice.findBySpecifications(specs, page, size);
+		return servicePage;
 
 	}
 

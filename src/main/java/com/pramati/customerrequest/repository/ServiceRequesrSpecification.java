@@ -8,10 +8,11 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.pramati.customerrequest.pojo.ServiceRequest;
+import com.pramati.customerrequest.utils.DateConvertor;
 import com.pramati.customerrequest.utils.SpecSearchCriteria;
 
 public class ServiceRequesrSpecification implements Specification<ServiceRequest> {
-	
+
 	private static final long serialVersionUID = -5890953512704135810L;
 	private SpecSearchCriteria criteria;
 
@@ -33,9 +34,11 @@ public class ServiceRequesrSpecification implements Specification<ServiceRequest
 		case NEGATION:
 			return builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
 		case GREATER_THAN:
-			return builder.greaterThan(root.get(criteria.getKey()), criteria.getValue().toString());
+			return builder.greaterThan(root.get(criteria.getKey()),
+					DateConvertor.convertStringToTimestamp(criteria.getValue().toString()));
 		case LESS_THAN:
-			return builder.lessThan(root.get(criteria.getKey()), criteria.getValue().toString());
+			return builder.lessThan(root.get(criteria.getKey()),
+					DateConvertor.convertStringToTimestamp(criteria.getValue().toString()));
 		case LIKE:
 			return builder.like(root.get(criteria.getKey()), criteria.getValue().toString());
 		case STARTS_WITH:
