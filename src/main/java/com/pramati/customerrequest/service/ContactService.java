@@ -5,7 +5,7 @@ import java.util.List;
 import com.pramati.customerrequest.pojo.Contact;
 
 public interface ContactService {
-	
-	public void addContact(List<Contact> contact);
+
+	public List<Contact> addContact(List<Contact> contact);
 
 }
