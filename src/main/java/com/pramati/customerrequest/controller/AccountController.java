@@ -47,7 +47,6 @@ public class AccountController {
 	public Page<Account> searchAccounts(@PathVariable(value = "firstName") String firstName,
 			@PathVariable(value = "lastName") String lastName, @RequestParam("page") int page,
 			@RequestParam("size") int size) {
-
 		return this.accountService.findBySpecification(firstName, lastName, page, size);
 
 	}

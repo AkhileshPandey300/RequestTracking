@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Joiner;
 import com.pramati.customerrequest.exception.ServicerRequestNotFoundException;
 import com.pramati.customerrequest.pojo.ServiceRequest;
+import com.pramati.customerrequest.pojo.Specifications;
 import com.pramati.customerrequest.repository.ServiceRequestRepository;
+import com.pramati.customerrequest.repository.SpecificationsRepository;
 import com.pramati.customerrequest.utils.ActivityEnum;
 import com.pramati.customerrequest.utils.SRSpecificationsBuilder;
 import com.pramati.customerrequest.utils.SearchOperation;
@@ -29,6 +31,9 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 
 	@Autowired
 	private ServiceRequestRepository serviceRequestRepository;
+
+	@Autowired
+	private SpecificationsRepository specificationRepository;
 
 	@Override
 	public ServiceRequest createService(ServiceRequest request) {
@@ -65,6 +70,7 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 
 	@Override
 	public Page<ServiceRequest> findBySpecifications(String specs, int page, int size) {
+		StringBuilder sbr = new StringBuilder();
 		Pageable pageable = PageRequest.of(page, size);
 		SRSpecificationsBuilder builder = new SRSpecificationsBuilder();
 		String operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET);
@@ -73,8 +79,16 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 		Matcher matcher = pattern.matcher(specs + ",");
 		while (matcher.find()) {
 			builder.with(matcher.group(1), matcher.group(2), matcher.group(4), matcher.group(3), matcher.group(5));
+			sbr.append(matcher.group(1)+";");
 		}
 		Specification<ServiceRequest> spec = builder.build();
+		Specifications specsEntity = specificationRepository.findBySpecs(specs);
+		if (specsEntity == null) {
+			Specifications entity = new Specifications();
+			entity.setSpecsName(sbr.toString());
+			entity.setSpecs(specs);
+			specificationRepository.save(entity);
+		}
 		return serviceRequestRepository.findAll(spec, pageable);
 	}
 
