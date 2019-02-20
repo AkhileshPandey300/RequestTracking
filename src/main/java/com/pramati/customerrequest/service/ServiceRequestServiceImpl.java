@@ -70,6 +70,13 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 
 	@Override
 	public Page<ServiceRequest> findBySpecifications(String specs, int page, int size) {
+		
+		if(!specs.contains(",")) {
+			Specifications specsEntity = specificationRepository.findBySpecsName(specs);
+			if (specsEntity != null) {
+				specs = specsEntity.getSpecs();
+			}			
+		}
 		StringBuilder sbr = new StringBuilder();
 		Pageable pageable = PageRequest.of(page, size);
 		SRSpecificationsBuilder builder = new SRSpecificationsBuilder();
@@ -82,13 +89,6 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 			sbr.append(matcher.group(1)+";");
 		}
 		Specification<ServiceRequest> spec = builder.build();
-		Specifications specsEntity = specificationRepository.findBySpecs(specs);
-		if (specsEntity == null) {
-			Specifications entity = new Specifications();
-			entity.setSpecsName(sbr.toString());
-			entity.setSpecs(specs);
-			specificationRepository.save(entity);
-		}
 		return serviceRequestRepository.findAll(spec, pageable);
 	}
 

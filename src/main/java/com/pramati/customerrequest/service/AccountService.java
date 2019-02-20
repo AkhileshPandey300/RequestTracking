@@ -12,7 +12,7 @@ public interface AccountService {
 	public Account updateCustomerAccount(Account account) throws AccountNotFoundException;
 
 	public Account findById(Long accountId) throws AccountNotFoundException;
-
+	
 	public Page<Account> getAllAccount(int page, int size);
 
 	public Page<Account> findBySpecification(String firstName, String lastName, int page, int size);

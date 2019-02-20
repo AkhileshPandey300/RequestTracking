@@ -6,6 +6,6 @@ import com.pramati.customerrequest.pojo.Specifications;
 @Repository
 public interface SpecificationsRepository extends JpaRepository<Specifications, Integer> {
 
-	public Specifications findBySpecs(String specs);
+	public Specifications findBySpecsName(String specs);
 
 }

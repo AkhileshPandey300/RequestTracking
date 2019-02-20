@@ -11,5 +11,7 @@ import com.pramati.customerrequest.pojo.Account;
 public interface AccountRepository extends  JpaRepository<Account, Long> {
 
 	Page<Account> findByFirstNameAndLastName(String firstName, String LastNAme ,Pageable pageable);
+	
+	Account findByFirstName(String name);
 
 }
