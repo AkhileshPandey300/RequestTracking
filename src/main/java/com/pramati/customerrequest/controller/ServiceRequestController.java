@@ -26,7 +26,7 @@ public class ServiceRequestController {
 	@Autowired
 	private ActivityService activityService;
 
-	@PostMapping("/")
+	@PostMapping("")
 	public ServiceRequest createService(@Valid @RequestBody ServiceRequest serviceRequest) {
 		serviceRequest.getAccountId();
 
@@ -57,7 +57,7 @@ public class ServiceRequestController {
 
 	}
 
-	@GetMapping("/")
+	@GetMapping("")
 	public Page<ServiceRequest> getAllServices(@RequestParam("page") int page, @RequestParam("size") int size) {
 		return this.sRequestRervice.getAllServices(page, size);
 	}

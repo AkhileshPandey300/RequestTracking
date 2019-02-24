@@ -18,7 +18,7 @@ public class ActivityController {
 	@Autowired
 	private ActivityService activityService;
 
-	@PostMapping("/")
+	@PostMapping("")
 	public void addContact(@Valid @RequestBody Activity activity) {
 
 		activityService.loggServiceActivity(activity);

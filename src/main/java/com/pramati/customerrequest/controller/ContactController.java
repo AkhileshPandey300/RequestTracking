@@ -20,7 +20,7 @@ public class ContactController {
 	@Autowired
 	private ContactService contactService;
 
-	@PostMapping("/")
+	@PostMapping("")
 	public void addContact(@Valid @RequestBody List<Contact> contact) {
 
 		contactService.addContact(contact);

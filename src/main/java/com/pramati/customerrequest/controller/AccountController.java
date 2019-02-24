@@ -29,7 +29,7 @@ public class AccountController {
 	}
 
 	// Create a new Account
-	@PostMapping("/")
+	@PostMapping("")
 	public Account createAccount(@Valid @RequestBody Account account) {
 		return this.accountService.createCustomerAccount(account);
 	}
@@ -52,7 +52,7 @@ public class AccountController {
 	}
 
 	// get All accounts
-	@GetMapping("/")
+	@GetMapping("")
 	public Page<Account> getAccounts(@RequestParam("page") int page, @RequestParam("size") int size) {
 
 		return this.accountService.getAllAccount(page, size);
