@@ -21,7 +21,6 @@ import com.pramati.customerrequest.pojo.ServiceRequest;
 import com.pramati.customerrequest.repository.ServiceRequestRepository;
 import com.pramati.customerrequest.service.ServiceRequestServiceImpl;
 import com.pramati.customerrequest.utils.ActivityEnum;
-import com.pramati.customerrequest.utils.TestUtils;
 
 class ServiceRequestServiceImplTest {
 
@@ -95,7 +94,7 @@ class ServiceRequestServiceImplTest {
 		}
 		when(serviceRequestRepository.findById("I8jm3Cac")).thenReturn(opAcc);
 
-			Assertions.assertThrows(ServicerRequestNotFoundException.class,
+		Assertions.assertThrows(ServicerRequestNotFoundException.class,
 
 				() -> {
 					serviceRequestServiceImpl.getServicesBySrNumber("4awdawq");
@@ -122,8 +121,8 @@ class ServiceRequestServiceImplTest {
 		listServiceRequest.add(rs);
 		Pageable pageable = PageRequest.of(0, 1);
 		Page<ServiceRequest> pageAccount = new PageImpl<>(listServiceRequest);
-		when(serviceRequestRepository.findAll(TestUtils.builder(specs), pageable)).thenReturn(pageAccount);
-		Page<ServiceRequest> resultPageAccount = serviceRequestServiceImpl.findBySpecifications(specs, 0, 1);
+//		when(serviceRequestRepository.findAll(TestUtils.builder(specs), pageable)).thenReturn(pageAccount);
+//		Page<ServiceRequest> resultPageAccount = serviceRequestServiceImpl.findBySpecifications(specs, 0, 1);
 //		assertNotNull(resultPageAccount);
 //		List<ServiceRequest> resultAccountList = resultPageAccount.getContent();
 //		assertNotNull(resultAccountList);

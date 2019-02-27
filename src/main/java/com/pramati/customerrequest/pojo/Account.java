@@ -18,9 +18,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pramati.customerrequest.pojo.User.UserBuilder;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "ACCOUNT")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "createdBy", "updatedBy", "createdAt", "updatedAt" }, allowGetters = true)
 public class Account extends BaseModel implements Serializable {
@@ -38,7 +46,7 @@ public class Account extends BaseModel implements Serializable {
 	private String zipcode;
 
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "account")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
 	private List<Contact> listOfContacts = new ArrayList<>();
 
 	public Account(String createdBy, String updatedBy, Date createdAt, Date updatedAt, Long accountId, String firstName,
@@ -54,9 +62,6 @@ public class Account extends BaseModel implements Serializable {
 		this.state = state;
 		this.zipcode = zipcode;
 		this.listOfContacts = contacts;
-	}
-
-	public Account() {
 	}
 
 	public Long getAccountId() {
